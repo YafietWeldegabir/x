@@ -2,15 +2,17 @@ package com.x.authservice.Controller;
 
 import com.x.authservice.Entity.User;
 import com.x.authservice.Service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
     public String addNewUser(@RequestBody User user){
