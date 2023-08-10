@@ -1,17 +1,18 @@
 package com.x.authservice.Service;
 
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-@Component
+
+@Service
 public class JwtService {
 
 
@@ -19,7 +20,18 @@ public class JwtService {
 
 
     public void validateToken(final String token) {
-        Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token);
+        try {
+            Jws<Claims> claimsJws = Jwts.parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(token);
+
+            // You can add more validation logic if needed based on the claims
+            // For example: check expiration, roles, etc.
+
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new RuntimeException("Invalid token: " + e.getMessage(), e);
+        }
     }
 
 
