@@ -1,6 +1,9 @@
 package com.x.authservice.Entity;
 
+import com.x.authservice.Validation.ValidEmail;
+import com.x.authservice.Validation.ValidPassword;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,14 +14,16 @@ import org.hibernate.validator.constraints.Email;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Valid
 public class User {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Email(message = "Please provide a valid email address")
+    @ValidEmail
     private String email;
+    @ValidPassword
     private String password;
 
 }
