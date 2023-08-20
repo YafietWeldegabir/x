@@ -1,5 +1,6 @@
-package com.x.authservice.Service;
-import com.x.authservice.Repository.UserRepository;
+package com.x.authservice.config;
+
+import com.x.authservice.Service.AuthService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.User;
@@ -20,14 +21,15 @@ class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        logger.info("Loading user details for username: {}", email);
 
+        logger.info("Loading user details for username: {}", email);
         com.x.authservice.Entity.User user = authService.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + email));
+
         logger.info("User found in the database: {}", user.getName());
 
         return User.builder()
-                .username(user.getName())
+                .username(user.getEmail())
                 .password(user.getPassword())
                 .roles("USER") // Assign roles here if needed
                 .build();

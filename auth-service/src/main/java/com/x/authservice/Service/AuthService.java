@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class AuthService {
     }
 
 
-    //    @Transactional
+        @Transactional
     public ResponseEntity<?> saveUser(User user) {
         try {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -54,10 +55,6 @@ public class AuthService {
         }
     }
 
-
-
-
-
     public ResponseEntity<String> validateToken(String token) {
         try {
             jwtService.validateToken(token);
@@ -66,10 +63,6 @@ public class AuthService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid token: " + e.getMessage());
         }
-    }
-
-    public Optional<User> findByUsername(String name) {
-        return userRepository.findByName(name);
     }
 
     public Optional<User> findByEmail(String email) {

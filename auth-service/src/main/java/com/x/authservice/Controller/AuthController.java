@@ -59,8 +59,6 @@ public class AuthController {
     }
 
 
-
-
     @PostMapping("/authenticate")
     public ResponseEntity<Map<String, String>> authenticate(@RequestBody @Valid UserDto authRequest) {
         try {
@@ -91,39 +89,11 @@ public class AuthController {
     }
 
 
-    @PostMapping("/token")
-    public ResponseEntity<String> getToken(@RequestBody @Valid UserDto authRequest) {
-        String token = authService.generateToken(authRequest.getEmail());
-        return ResponseEntity.ok(token);
-//        try {
-//
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-//            );
-//
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            String token = authService.generateToken(authRequest.getUsername());
-//            return ResponseEntity.ok(token);
-//        } catch (AuthenticationException ae){
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials."+ ae.getMessage());
-//        }
-//        catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials."+ e.getMessage());
-//        }
-    }
-//    @GetMapping("/token")
-//    public ResponseEntity<String> getToken(@RequestBody UserDto authRequest) {
-//        String token = authService.generateToken(authRequest.getUsername());
-//        return ResponseEntity.ok(token);
-//    }
-
     @GetMapping("/validate")
     public ResponseEntity<String> validateToken(@RequestParam("token") String token) {
         return authService.validateToken(token);
 
     }
-
 
 
 }
